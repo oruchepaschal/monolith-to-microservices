@@ -29,7 +29,7 @@ script:
 
 #tasks to perform after the process is successful. Formatting the Docker username and password as below enables you
 after_success:
-- echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker push captchacoder/reverseproxy:v5
 - docker push captchacoder/udagram-api-feed:v5
 - docker push captchacoder/udagram-api-user:v5
