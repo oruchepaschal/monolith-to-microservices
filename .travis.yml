@@ -1,34 +1,36 @@
 language: node_js
+#sudo: false
 node_js:
   - 13
+  
+services:
+- docker
 
-  services:
-  - docker
+#pre testing installs
+install:
+- echo "nothing needs to be installed"
 
-  #pre testing installs
-  install:
-  - echo "nothing needs to be installed"
+# Scripts to be run such as tests
+before_script:
+- echo "no tests. Yes there will be tests"
 
-  # Scripts to be run such as tests
-  before_script:
-  - echo "no tests. Yes there will be tests"
+script: 
+- docker --version #print the version for loggin here
+- docker build -t udagram-reverseproxy ./udagram-reverseproxy
+- docker build -t udagram-api-feed ./udagram-api-feed
+- docker build -t udagram-api-user ./udagram-api-user
+- docker build -t udagram-frontend ./udagram-frontend
+  
+#tagging
+- docker tag udagram-reverseproxy captchacoder/reverseproxy:v5
+- docker tag udagram-api-feed captchacoder/udagram-api-feed:v5
+- docker tag udagram-api-user captchacoder/udagram-api-user:v5
+- docker tag udagram-frontend captchacoder/udagram-frontend:local
 
-  script: 
-  - docker --version #print the version for loggin here
-  - docker build -t udagram-reverseproxy ./udagram-reverseproxy
-  - docker build -t udagram-api-feed ./udagram-api-feed
-  - docker build -t udagram-api-user ./udagram-api-user
-  - docker build -t udagram-frontend ./udagram-api-frontend
-  #tagging
-  - docker tag udagram-reverseproxy captchacoder/udagram-reverseproxy:v5
-  - docker tag udagram-api-feed captchacoder/udagram-api-feed:v5
-  - docker tag udagram-api-user captchacoder/udagram-api-user:v5
-  - docker tag udagram-frontend captchacoder/udagram-frontend:v5
-
-  #tasks to perform after the process is successful. Formatting the Docker username and password as below enables you
-  after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
-  - docker push captchacoder/udagram-reverseproxy:v5
-  - docker push captchacoder/udagram-api-feed:v5
-  - docker push captchacoder/udagram-api-user:v5
-  - docker push captchacoder/udagram-frontend:v5
+#tasks to perform after the process is successful. Formatting the Docker username and password as below enables you
+after_success:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push captchacoder/reverseproxy:v5
+- docker push captchacoder/udagram-api-feed:v5
+- docker push captchacoder/udagram-api-user:v5
+- docker push captchacoder/udagram-frontend:local
