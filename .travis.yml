@@ -22,15 +22,15 @@ script:
 - docker build -t udagram-frontend ./udagram-frontend
   
 #tagging
-- docker tag udagram-reverseproxy captchacoder/reverseproxy:v5
-- docker tag udagram-api-feed captchacoder/udagram-api-feed:v5
-- docker tag udagram-api-user captchacoder/udagram-api-user:v5
-- docker tag udagram-frontend captchacoder/udagram-frontend:local
+- docker tag udagram-reverseproxy captchacoder/reverseproxy:v6
+- docker tag udagram-api-feed captchacoder/udagram-api-feed:v6
+- docker tag udagram-api-user captchacoder/udagram-api-user:v6
+- docker tag udagram-frontend captchacoder/udagram-frontend:v6
 
 #tasks to perform after the process is successful. Formatting the Docker username and password as below enables you
 after_success:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker push captchacoder/reverseproxy:v5
-- docker push captchacoder/udagram-api-feed:v5
-- docker push captchacoder/udagram-api-user:v5
-- docker push captchacoder/udagram-frontend:local
+- docker push captchacoder/reverseproxy:v6
+- docker push captchacoder/udagram-api-feed:v6
+- docker push captchacoder/udagram-api-user:v6
+- docker push captchacoder/udagram-frontend:v6
